@@ -213,6 +213,17 @@
   </div>
 </section>
 
+<!-- WhatsApp Pop-up Button -->
+<div id="whatsapp-button">
+  <i class="fab fa-whatsapp"></i>
+</div>
+
+<!-- WhatsApp Chat Popup -->
+<div id="whatsapp-chat">
+  <div class="chat-header">Chat with us</div>
+  <textarea placeholder="Type your message here..."></textarea>
+  <button onclick="sendWhatsApp()">Send</button>
+</div>
 
   <!-- Footer -->
 <footer class="site-footer">
@@ -309,6 +320,37 @@
       btn.textContent = isVisible ? 'Read More' : 'Show Less';
     });
   });
+
+  // WhatsApp Chat Functionality//
+  const button = document.getElementById('whatsapp-button');
+  const chatBox = document.getElementById('whatsapp-chat');
+
+  // Handle bounce and hide after 3 bounces
+  setTimeout(() => {
+    button.style.display = 'none';
+  }, 1800); // after 3 bounces (0.6s * 3)
+
+  // Reappear after 6 seconds
+  setInterval(() => {
+    button.style.display = 'flex';
+    setTimeout(() => {
+      button.style.display = 'none';
+    }, 1800);
+  }, 6000 + 1800);
+
+  // Toggle chat box
+  button.onclick = () => {
+    chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+  };
+
+  // Send message
+  function sendWhatsApp() {
+    const message = document.querySelector('#whatsapp-chat textarea').value.trim();
+    if (message) {
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/787312507?text=${encodedMessage}`, '_blank');
+    }
+  }
 </script>
 
 </html>

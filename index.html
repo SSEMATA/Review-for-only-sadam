@@ -215,16 +215,18 @@
   </div>
 </section>
 
-<!-- WhatsApp Pop-up Button -->
-<div id="whatsapp-button">
-  <i class="fab fa-whatsapp"></i>
+<!-- WhatsApp Icon -->
+<div id="whatsappIcon" class="whatsapp-icon bounce">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
 </div>
 
-<!-- WhatsApp Chat Popup -->
-<div id="whatsapp-chat">
-  <div class="chat-header">Chat with us</div>
-  <textarea placeholder="Type your message here..."></textarea>
-  <button onclick="sendWhatsApp()">Send</button>
+<!-- Chat Popup -->
+<div id="chatPopup" class="chat-popup">
+  <textarea placeholder="Type your message..."></textarea>
+  <div class="chat-buttons">
+    <button class="cancel-btn" onclick="cancelChat()">Cancel</button>
+    <button class="send-btn" onclick="sendMessage()">Send</button>
+  </div>
 </div>
 
   <!-- Footer -->
@@ -249,14 +251,14 @@
     <div class="footer-column">
       <h4>Contact Info</h4>
       <ul>
-        <li>📞 +256 700 000 000</li>
-        <li>📧 info@sadamlegalconsult.com</li>
-        <li>📍 Fort Portal, Uganda</li>
+        <li><i class="fas fa-phone"></i> +256 787 312507</li>
+        <li><i class="fas fa-envelope"></i> info@sadamlegalconsult.com</li>
+        <li><i class="fas fa-map-marker-alt"></i> Nabingoola, Mubende, Uganda</li>
       </ul>
     </div>
 <h4>Follow Us</h4>
 <div class="social-icons">
-  <a href="#"><i class="fab fa-facebook-f"></i></a>
+  <a href="#"><i class="fab fa-facebook-f" color="blue" background-color="blue"></i></a>
   <a href="#"><i class="fab fa-twitter"></i></a>
   <a href="#"><i class="fab fa-linkedin-in"></i></a>
 </div>
@@ -324,35 +326,57 @@
   });
 
   // WhatsApp Chat Functionality//
-  const button = document.getElementById('whatsapp-button');
-  const chatBox = document.getElementById('whatsapp-chat');
+  const icon = document.getElementById("whatsappIcon");
+  const popup = document.getElementById("chatPopup");
 
-  // Handle bounce and hide after 3 bounces
-  setTimeout(() => {
-    button.style.display = 'none';
-  }, 1800); // after 3 bounces (0.6s * 3)
+  let showTimer, hideTimer;
 
-  // Reappear after 6 seconds
-  setInterval(() => {
-    button.style.display = 'flex';
+  function toggleIcon(show) {
+    icon.style.display = show ? "flex" : "none";
+  }
+
+  function bounceTemporarily() {
+    icon.classList.add("bounce");
+    toggleIcon(true);
+
+    showTimer = setTimeout(() => {
+      icon.classList.remove("bounce");
+      toggleIcon(false);
+      hideTimer = setTimeout(() => {
+        bounceTemporarily();
+      }, 6000);
+    }, 3000);
+  }
+
+  icon.addEventListener("click", () => {
+    clearTimeout(showTimer);
+    clearTimeout(hideTimer);
+    toggleIcon(false);
+    popup.style.display = "flex";
+  });
+
+  function cancelChat() {
+    popup.style.display = "none";
     setTimeout(() => {
-      button.style.display = 'none';
-    }, 1800);
-  }, 6000 + 1800);
+      bounceTemporarily();
+    }, 6000);
+  }
 
-  // Toggle chat box
-  button.onclick = () => {
-    chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
-  };
-
-  // Send message
-  function sendWhatsApp() {
-    const message = document.querySelector('#whatsapp-chat textarea').value.trim();
+  function sendMessage() {
+    const message = popup.querySelector("textarea").value.trim();
     if (message) {
-      const encodedMessage = encodeURIComponent(message);
-      window.open(`https://wa.me/787312507?text=${encodedMessage}`, '_blank');
+      const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      window.open(whatsappURL, '_blank');
+      popup.querySelector("textarea").value = '';
+      popup.style.display = "none";
+      setTimeout(() => {
+        bounceTemporarily();
+      }, 6000);
     }
   }
+
+  // Start bouncing on page load
+  window.onload = bounceTemporarily;
 </script>
 
 </html>

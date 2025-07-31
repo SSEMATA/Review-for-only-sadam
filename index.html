@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://upload.wikimedia.org; script-src 'self'; style-src 'self' 'unsafe-inline';">
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -328,6 +330,8 @@
   // WhatsApp Chat Functionality//
   const icon = document.getElementById("whatsappIcon");
   const popup = document.getElementById("chatPopup");
+  const message = sanitizeInput(popup.querySelector("textarea").value.trim());
+
 
   let showTimer, hideTimer;
 
@@ -377,6 +381,13 @@
 
   // Start bouncing on page load
   window.onload = bounceTemporarily;
+
+  function sanitizeInput(input) {
+  const div = document.createElement('div');
+  div.innerText = input;
+  return div.innerHTML;
+}
+
 </script>
 
 </html>

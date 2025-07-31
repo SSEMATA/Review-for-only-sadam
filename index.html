@@ -243,7 +243,7 @@
       <ul>
         <li><a href="#hero">Home</a></li>
         <li><a href="#faq">FAQs</a></li>
-        <li><a href="#insights">Legal Updates</a></li>
+        <li><a href="#blogs">Legal Updates</a></li>
         <li><a href="#contact">Contact Us</a></li>
       </ul>
     </div>
@@ -258,7 +258,7 @@
     </div>
 <h4>Follow Us</h4>
 <div class="social-icons">
-  <a href="#"><i class="fab fa-facebook-f" color="blue" background-color="blue"></i></a>
+  <a href="#"><i class="fab fa-facebook-f"></i></a>
   <a href="#"><i class="fab fa-twitter"></i></a>
   <a href="#"><i class="fab fa-linkedin-in"></i></a>
 </div>
@@ -328,9 +328,6 @@
   // WhatsApp Chat Functionality//
   const icon = document.getElementById("whatsappIcon");
   const popup = document.getElementById("chatPopup");
-  const message = sanitizeInput(popup.querySelector("textarea").value.trim());
-
-
   let showTimer, hideTimer;
 
   function toggleIcon(show) {
